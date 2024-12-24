@@ -42,6 +42,30 @@ The aim of this project was to simulate and detect adversary tactics and techniq
 - Selected a relevant MITRE ATT&CK technique (e.g., Persistence - BITS Jobs [T1197]) to simulate adversary behavior.
 - Utilized PowerShell to execute the BITS Jobs attack simulation (T1197), generating telemetry data and logs for Splunk ingestion.
 
+### Adversary Simulation (Persistence Tactic):
+
+- Selected a relevant MITRE ATT&CK technique (e.g., Persistence - BITS Jobs [T1197]) to simulate adversary behavior.
+- Utilized PowerShell to execute the BITS Jobs attack simulation (T1197), generating telemetry data and logs for Splunk ingestion.
+  
+### Log Analysis in Splunk:
+
+- Queried Splunk logs for the BITS Jobs technique (T1197) and refined the query to extract relevant data (e.g., time, parent image, command line).
+- Organized the results in a clear, readable table format for effective analysis and identification of potential malicious activity.
+
+### MITRE ATT&CK Validation:
+
+- Cross-referenced Splunk findings with the MITRE ATT&CK framework to validate detection of the simulated attack.
+- Focused on key indicators (e.g., “transfer”) to identify behaviors matching known adversary tactics.
+- Categorized findings as legitimate or suspicious based on ATT&CK’s detection recommendations.
+
+### System Cleanup:
+
+- After completing the analysis, removed all generated telemetry and logs to restore the VM environment to its original state, ensuring it was clean and secure.
+
+
+
+#### SCREENSHOTS
+
 
 
 
@@ -97,6 +121,19 @@ The aim of this project was to simulate and detect adversary tactics and techniq
 
 
 ![running everything](https://github.com/user-attachments/assets/a60f38fa-60cd-424d-806e-19335aee0518)
+
+
+### query specifically for bits
+
+
+![lookinf got ](https://github.com/user-attachments/assets/2ee2548a-6ab7-4906-81b7-12a7491f9d58)
+
+
+### making it much more easy to read and analyze 
+
+
+![hm](https://github.com/user-attachments/assets/84ddd2d6-1860-4509-89fd-a40bbc44ed26)
+
 
 
 
