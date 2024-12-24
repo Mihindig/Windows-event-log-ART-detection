@@ -55,4 +55,61 @@ The aim of this project was to simulate and detect adversary tactics and techniq
 
 ### 6.System Cleanup:
 
-- After completing the analysis, removed all generated telemetry and logs to restore the VM environment to its original state, ensuring it was clean and secure.
+
+### Bypass execution policy
+
+
+![bypassing execution policy](https://github.com/user-attachments/assets/9724c234-1818-4552-b96d-8cc266615c40)
+
+
+### Installing execution framework along with the atomic folder
+
+
+![installing execution framework along with the atomic folder](https://github.com/user-attachments/assets/c0305898-5ec9-490c-95dc-496e9c1aa1c0)
+
+
+### atomic folder
+
+
+![atomic folder](https://github.com/user-attachments/assets/c40127f3-7737-4100-8bfb-fa5dfb1d2644)
+
+
+### excluding folder under exclusions
+
+
+![excluding the ART folder in exclusions](https://github.com/user-attachments/assets/1f655c58-2280-42bb-a7b6-a610136c0024)
+
+
+### reinstalling folder
+
+
+![reinstalling folder](https://github.com/user-attachments/assets/4b677201-b96d-493d-aeeb-0ce0446b0c8a)
+
+
+### looking for everything 
+
+
+![looking for everything](https://github.com/user-attachments/assets/250ee86d-9a17-41b5-9ac7-c92113d13cdf)
+
+
+### using MITRE attack for event IDs
+
+
+![using MITRE attack for event ID](https://github.com/user-attachments/assets/c12a08b3-379a-4b3d-9236-9fe40a6cb1d7)
+
+
+### testing for techniques related to the ID
+
+
+![Testing for techniques in bits jobs](https://github.com/user-attachments/assets/91672458-6117-438b-9d0b-ae645651a8f3)
+
+
+### running every tests
+
+
+![running everything](https://github.com/user-attachments/assets/a60f38fa-60cd-424d-806e-19335aee0518)
+
+
+
+![Testing for techniques in bits jobs](https://github.com/user-attachments/assets/fe7aa15c-8416-42be-b833-db94e990d97a)
+![running everything](https://github.com/user-attachments/assets/2dba84a0-91d5-4ff7-8064-d45dbeaf554e)
