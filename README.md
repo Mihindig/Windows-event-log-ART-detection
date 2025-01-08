@@ -1,139 +1,249 @@
-# MITRE ATT&CK Persistence Detection with Splunk
+# Windows event logs + ART detection
 
 ## Objective
-The aim of this project was to simulate and detect adversary tactics and techniques leveraging Splunk, Sysmon, the MITRE ATT&CK framework, and Atomic Red Team (ART). The focus was on generating and analyzing logs to identify malicious activity, enhancing skills in endpoint monitoring, log analysis, and SIEM querying for real-world cybersecurity defense. This hands-on project provided practical experience in detecting persistence mechanisms used by adversaries and improving defensive measures.
+This project demonstrates the setup, execution, and analysis of Windows Event Logs using Sysmon and Splunk. By leveraging the Atomic Red Team (ART) framework and aligning with the MITRE ATT&CK framework, the project focuses on simulating adversary techniques and detecting them effectively.
 
 ### Skills Learned
 
-- SIEM Implementation & Log Analysis: Gained practical experience with Splunk for effective log ingestion, querying, and analysis within a Security Information and Event Management (SIEM) environment.
-- Adversary TTP Simulation & Detection: Proficient in generating, simulating, and analyzing adversary Tactics, Techniques, and Procedures (TTPs) using Atomic Red Team (ART).
-- MITRE ATT&CK Framework Expertise: In-depth understanding of MITRE ATT&CK tactics, techniques, and procedures, with the ability to map simulated attacks to real-world adversary behaviors.
-- Endpoint Monitoring & Detection: Hands-on experience using Sysmon for detailed endpoint monitoring and Splunk for log analysis to identify malicious activities.
-- Effective Query Crafting: Developed proficiency in crafting and refining queries to detect specific attack patterns and malicious behavior within logs.
-- Attack Detection & Defense Strategies: Enhanced knowledge of attack detection methods and defensive countermeasures in a real-world cybersecurity context.
+Windows Event Logging:
+
+-Configured Sysmon for capturing detailed system activity logs.
+
+Log Management & Analysis:
+
+-Ingested, queried, and analyzed event logs using Splunk.
+-Built structured Splunk queries for filtering, table creation, and process analysis.
+
+Adversary Simulation:
+
+-Simulated real-world adversary behaviors using the Atomic Red Team framework.
+-Executed specific MITRE ATT&CK techniques (e.g., T1197 - BITS Jobs).
+
+Threat Detection & Investigation:
+
+-Mapped events to the MITRE ATT&CK framework for detection and analysis.
+-Identified parent-child process relationships for suspicious activity detection.
+
+Tool Proficiency:
+
+-Hands-on experience with Sysmon, Splunk, Atomic Red Team, and VirtualBox.
+
+Problem-Solving:
+
+-Troubleshot antivirus interference by configuring exclusions.
+-Managed large event data effectively using Splunk’s search capabilities.
+
+Practical Threat Hunting:
+
+-Validated false positives by cross-referencing with MITRE ATT&CK’s detection guidelines.
 
 ### Tools Used
 
 
-- Splunk: For log ingestion, querying, and analysis in a SIEM environment.
-- Sysmon: Monitored and collected detailed endpoint activity logs to track system behavior and identify potential threats.
-- Atomic Red Team (ART): Simulated adversary behaviors and tactics to generate telemetry data for testing detection capabilities.
-- PowerShell: Executed and managed simulation scripts to carry out attack simulations.
-- MITRE ATT&CK Framework: Mapped simulated techniques to real-world attack patterns to assess detection efficacy.
-- Virtual Machine (VM): Created a secure environment for attack simulation and log analysis without affecting the host system.
+Sysmon (System Monitor)
+
+-For generating detailed Windows Event Logs, capturing process creation, network connections, and file modifications.
+
+Splunk
+
+-Used for log ingestion, analysis, and creating custom search queries to identify malicious activity.
+
+Atomic Red Team (ART)
+
+-A framework for simulating adversary behaviors mapped to the MITRE ATT&CK framework.
+
+VirtualBox
+
+-To create a controlled environment for testing, using a Windows 10 virtual machine.
+
+MITRE ATT&CK Framework
+
+-As a reference to map simulated adversary techniques and design detection strategies.
+
+PowerShell
+
+-For configuring Sysmon, managing the ART framework, and executing simulated techniques.
+
+Windows Defender
+
+-Configured to manage antivirus exclusions for smoother testing.
 
 ## Steps
 
-### 1.Environment Setup:
+1.Installed and Configured Sysmon
 
-- Installed Splunk and Sysmon on a virtual machine (VM) to collect and analyze system activity logs.
-- Configured Sysmon with custom rules for monitoring key system activities, such as process creation, network connections, and file creation.
-- Verified successful log collection from Sysmon, ensuring accurate data ingestion into Splunk.
+-Downloaded Sysmon and applied a custom configuration file to enable detailed logging of critical system events.
 
-### 2.Atomic Red Team (ART) Configuration:
+2.Installed and Set Up Splunk
 
-- Set up Atomic Red Team by bypassing PowerShell's execution policy to run the framework scripts.
-- Installed ART using PowerShell, following setup instructions from the ART wiki.
-- Ensured the ART folder was excluded from Windows Defender scanning to avoid detection by security software.
-- Reinstalled ART with the --force option to ensure proper installation.
+-Deployed Splunk and configured the platform to ingest logs for centralized analysis.
 
-### 3.Adversary Simulation (Persistence Tactic):
+3.Set Up a Virtual Environment
 
-- Selected a relevant MITRE ATT&CK technique (e.g., Persistence - BITS Jobs [T1197]) to simulate adversary behavior.
-- Utilized PowerShell to execute the BITS Jobs attack simulation (T1197), generating telemetry data and logs for Splunk ingestion.
+-Created a Windows 10 virtual machine using VirtualBox and an ISO image. Configured the environment for testing purposes.
+ 
+4.Launched PowerShell as Administrator
 
-### Adversary Simulation (Persistence Tactic):
+-Ensured administrative privileges for seamless execution of scripts and frameworks.
 
-- Selected a relevant MITRE ATT&CK technique (e.g., Persistence - BITS Jobs [T1197]) to simulate adversary behavior.
-- Utilized PowerShell to execute the BITS Jobs attack simulation (T1197), generating telemetry data and logs for Splunk ingestion.
-  
-### Log Analysis in Splunk:
+5.Bypassed Execution Policy
 
-- Queried Splunk logs for the BITS Jobs technique (T1197) and refined the query to extract relevant data (e.g., time, parent image, command line).
-- Organized the results in a clear, readable table format for effective analysis and identification of potential malicious activity.
+-Ran the following command to bypass the execution policy temporarily, as recommended by the official documentation to avoid potential errors:
 
-### MITRE ATT&CK Validation:
+# Set-ExecutionPolicy Bypass -Scope CurrentUser
 
-- Cross-referenced Splunk findings with the MITRE ATT&CK framework to validate detection of the simulated attack.
-- Focused on key indicators (e.g., “transfer”) to identify behaviors matching known adversary tactics.
-- Categorized findings as legitimate or suspicious based on ATT&CK’s detection recommendations.
+6.Installed the Atomic Red Team (ART) Execution Framework
 
-### System Cleanup:
+-Installed the ART framework directly from its official repository without relying on the PowerShell Gallery:
 
-- After completing the analysis, removed all generated telemetry and logs to restore the VM environment to its original state, ensuring it was clean and secure.
+# IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing);
+# Install-AtomicRedTeam
 
+7.Excluded the Atomic Folder in Antivirus Settings
+
+-Added the Atomic Red Team folder to the antivirus exclusion list to prevent interference during testing.
+
+8.Reinstalled the Execution Framework
+
+-Reinstalled the framework with all techniques to ensure full functionality:
+
+# Install-AtomicRedTeam -GetAtomics -Force
+
+9.Verified Available ART Tests
+
+-Used the following command to list and review all available Atomic Red Team tests:
+
+# Invoke-AtomicTest ALL -ShowDetailsBrief
+
+10.Selected a Technique from the MITRE ATT&CK Framework
+
+-Navigated to the MITRE ATT&CK website and chose a technique of interest. Selected "BITS Jobs" under the Persistence category, with event ID T1197.
+
+11.Inspected Techniques Related to T1197
+
+-Reviewed available tests for T1197 using:
+
+# Invoke-AtomicTest T1197 -ShowDetailsBrief
+
+12.Executed Atomic Tests for T1197
+
+-Ran all available tests for T1197 to simulate the technique:
+
+# Invoke-AtomicTest T1197
+
+13.Configured Splunk for Sysmon Log Ingestion
+
+-Added the Sysmon log file path as a data input in Splunk to enable the monitoring of Sysmon events.
+
+14.Verified Sysmon Events in Splunk
+
+-Queried Sysmon events to confirm that the logging configuration was operational:
+
+# index=main source="C:\\windows\\system32\\winevnt...etc"
+
+15.Searched for Events Related to ART Tests
+
+-Filtered events in Splunk to identify those associated with the Atomic Red Team tests, such as bitsadmin.exe:
+
+# index=main source="C:\\windows\\system32\\winevnt...etc" eventcode=1 image="*bitsadmin.exe*"
+
+16.Created a Process Analysis Table for Readability
+
+-Built a table in Splunk for parent-child process analysis to enhance readability:
+
+# index=main source="C:\\windows\\system32\\winevnt...etc" eventcode=1 image="*bitsadmin.exe*"
+# | table _time, parentimage, parentcommandline, image, commandline
+# | sort +_time
+
+17.Reviewed MITRE ATT&CK Detection Guidelines
+
+-Consulted the "BITS Jobs" detection section on the MITRE ATT&CK website for keywords such as "create" and "transfer" to refine searches.
+
+18.Validated Keywords in Splunk
+
+-Queried Splunk for related keywords (e.g., cmd.exe, create, transfer) to confirm that these were legitimate events and not false positives.
 
 
 #### SCREENSHOTS
 
 
+-sysmon functionality verification
+
+![1 sysmon functionality verification](https://github.com/user-attachments/assets/1799e35b-c0d1-4d01-ae57-aa169044113f)
 
 
-### Bypass execution policy
+-preparing for the execution framework
+
+![2 preparing for the execution framework](https://github.com/user-attachments/assets/a9ab8007-1e81-4942-a112-5b27caf4a7e5)
 
 
-![bypassing execution policy](https://github.com/user-attachments/assets/9724c234-1818-4552-b96d-8cc266615c40)
+-installing execution framework along with the folder
+
+![3 installing execution framework along with the atomic folder](https://github.com/user-attachments/assets/2a123441-7248-436f-acaf-24a44fd046f1)
 
 
-### Installing execution framework along with the atomic folder
+-atomic folder
+
+![4 atomic folder](https://github.com/user-attachments/assets/45be396d-aea9-4163-bfe4-0ad967dd7630)
 
 
-![installing execution framework along with the atomic folder](https://github.com/user-attachments/assets/c0305898-5ec9-490c-95dc-496e9c1aa1c0)
+-excluding the ART folder in anti virus
+
+![5 excluding the ART folder in anti virus](https://github.com/user-attachments/assets/3e7e9026-8eb3-4e44-9e97-5eea9cc06e96)
 
 
-### atomic folder
+-reinstalling execution framework
+
+![6 reinstalling execution framework](https://github.com/user-attachments/assets/a9654154-d3ee-4def-aa63-010e96fae8cd)
 
 
-![atomic folder](https://github.com/user-attachments/assets/c40127f3-7737-4100-8bfb-fa5dfb1d2644)
+-verifying available ART tests
+
+![7 verifying available ART tests](https://github.com/user-attachments/assets/c4133d68-f483-4234-ba9a-bdfc2900b531)
 
 
-### excluding folder under exclusions
+-identifying the relavant MITRE ATTACK technique
+
+![8 identifying the relavent MITRE ATTACK technique](https://github.com/user-attachments/assets/1f3d5e27-eb08-4e46-ad35-d7803f868b9e)
 
 
-![excluding the ART folder in exclusions](https://github.com/user-attachments/assets/1f655c58-2280-42bb-a7b6-a610136c0024)
+-insprecting T1197 techniques details
+
+![9 inspecting T1197 techniques details](https://github.com/user-attachments/assets/66a65d3b-32fc-41bb-a649-952840163c27)
 
 
-### reinstalling folder
+-executes the tests for T1197
+
+![10 executes the tests for T1197](https://github.com/user-attachments/assets/85031259-7358-41e3-b460-44e4e71187d3)
 
 
-![reinstalling folder](https://github.com/user-attachments/assets/4b677201-b96d-493d-aeeb-0ce0446b0c8a)
+-search for sysmon events related to ART tests
+
+![11 search for sysmon events in splunk related to ART tests](https://github.com/user-attachments/assets/a4933a00-08de-4b51-bbc3-85adb4e15327)
 
 
-### looking for everything 
+-refer to MITRE ATTACK for detection guidance
+
+![12 refer to MITRE ATTACK for detection guidance](https://github.com/user-attachments/assets/a108a99a-254b-4ca6-b00d-0cec89d5ace5)
 
 
-![looking for everything](https://github.com/user-attachments/assets/250ee86d-9a17-41b5-9ac7-c92113d13cdf)
+-create a table for parent-child process analysis 
+
+![13 create a table for parent-child process analysis](https://github.com/user-attachments/assets/60bf253b-2c05-40f9-90f3-f12ccebf57b0)
 
 
-### using MITRE attack for event IDs
+-analyze the tabel for suspicious keywords
+
+![14 analyze the table for suspicious keywords](https://github.com/user-attachments/assets/b632f33b-0d8b-4d34-ae3b-b1a0121b88b4)
 
 
-![using MITRE attack for event ID](https://github.com/user-attachments/assets/c12a08b3-379a-4b3d-9236-9fe40a6cb1d7)
+### Resources
 
-
-### testing for techniques related to the ID
-
-
-![Testing for techniques in bits jobs](https://github.com/user-attachments/assets/91672458-6117-438b-9d0b-ae645651a8f3)
-
-
-### running every tests
-
-
-![running everything](https://github.com/user-attachments/assets/a60f38fa-60cd-424d-806e-19335aee0518)
-
-
-### query specifically for bits
-
-
-![lookinf got ](https://github.com/user-attachments/assets/2ee2548a-6ab7-4906-81b7-12a7491f9d58)
-
-
-### making it much more easy to read and analyze 
-
-
-![hm](https://github.com/user-attachments/assets/84ddd2d6-1860-4509-89fd-a40bbc44ed26)
-
-
-
-
+# https://www.microsoft.com/en-ca/software-download/windows10
+# https://www.virtualbox.org/
+# https://git-scm.com/
+# https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+# https://github.com/olafhartong/sysmon-modular
+# https://www.splunk.com/
+# https://github.com/redcanaryco/invoke-atomicredteam/wiki/Installing-Invoke-AtomicRedTeam
+# https://attack.mitre.org/
