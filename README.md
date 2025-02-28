@@ -1,214 +1,140 @@
 # Windows event logs + ART detection
 
 ## Objective
-This project demonstrates the setup, execution, and analysis of Windows Event Logs using Sysmon and Splunk. By leveraging the Atomic Red Team (ART) framework and aligning with the MITRE ATT&CK framework, the project focuses on simulating adversary techniques and detecting them effectively.
+This project demonstrates the use of Sysmon and Splunk for analyzing Windows Event Logs, simulating adversarial activity using Atomic Red Team (ART), and detecting potential security threats. The project integrates Sysmon for detailed event collection, Splunk for log analysis, and the MITRE ATT&CK framework for mapping attack techniques. It showcases practical threat detection, incident response capabilities, and the ability to manage large volumes of data while filtering for relevant security events.
 
-### Skills Learned
+### Skills Acquired
 
-Windows Event Logging:
+1. Windows Event Logging and Analysis
 
--Configured Sysmon for capturing detailed system activity logs.
+Sysmon Configuration: Installed Sysmon with a custom XML configuration for monitoring detailed system activities such as process creation, network connections, and file changes.
+Splunk Integration: Ingested Sysmon logs into Splunk for centralized analysis and real-time monitoring of system activities, enabling effective detection of malicious behavior.
 
+2. Adversary Simulation Using ART
 
+Simulated advanced persistent threats using the ART framework, aligning with MITRE ATT&CK techniques, specifically T1197 (BITS Jobs), to emulate persistence tactics.
+Executed all ART tests related to T1197 to create a comprehensive set of logs for analysis.
 
-Log Management & Analysis:
+3. Threat Detection and Investigation
 
--Ingested, queried, and analyzed event logs using Splunk.
--Built structured Splunk queries for filtering, table creation, and process analysis.
+Analyzed logs in Splunk for suspicious activities, specifically identifying process creation and parent-child process relationships related to BITS Jobs.
+Applied MITRE ATT&CK’s detection guidelines to validate findings, ensuring that alerts for suspicious behavior were not false positives.
 
+4. Process Analysis with Splunk
 
+Created a parent-child process relationship table in Splunk for better readability of system activity, which is vital for detecting suspicious processes and identifying chains of execution.
 
-Adversary Simulation:
+5. Incident Response and Troubleshooting
 
--Simulated real-world adversary behaviors using the Atomic Red Team framework.
--Executed specific MITRE ATT&CK techniques (e.g., T1197 - BITS Jobs).
-
-
-
-Threat Detection & Investigation:
-
--Mapped events to the MITRE ATT&CK framework for detection and analysis.
--Identified parent-child process relationships for suspicious activity detection.
-
-
-
-Tool Proficiency:
-
--Hands-on experience with Sysmon, Splunk, Atomic Red Team, and VirtualBox.
-
-
-
-Problem-Solving:
-
--Troubleshot antivirus interference by configuring exclusions.
--Managed large event data effectively using Splunk’s search capabilities.
-
-
-
-Practical Threat Hunting:
-
--Validated false positives by cross-referencing with MITRE ATT&CK’s detection guidelines.
+Addressed and troubleshot issues, including an accidental error caused by closing a tab while running tests, which was resolved by re-importing the ART module.
 
 
 
 ### Tools Used
+*Sysmon: Installed and configured Sysmon to collect event logs on process creation, file system activity, network connections, and more.
 
+*Splunk: Utilized Splunk for centralized log collection, query building, and creating actionable insights from Sysmon logs.
 
-Sysmon (System Monitor)
+*Atomic Red Team (ART): Leveraged ART to simulate adversarial activities based on the MITRE ATT&CK framework.
 
--For generating detailed Windows Event Logs, capturing process creation, network connections, and file modifications.
+*MITRE ATT&CK Framework: Referenced for understanding and mapping adversary tactics, techniques, and procedures (TTPs).
 
+*PowerShell: Used for configuring Sysmon, managing ART modules, and bypassing execution policies during testing.
 
+*Windows Defender: Configured to exclude ART-related folders to prevent interference during testing.
 
-Splunk
 
--Used for log ingestion, analysis, and creating custom search queries to identify malicious activity.
 
+## Project Workflow
 
+1. Virtual Machine Setup and Configuration
 
-Atomic Red Team (ART)
+Set up a Windows 10 Pro VM using VirtualBox with 4GB RAM and 2 CPUs to handle event logging and testing without performance issues.
 
--A framework for simulating adversary behaviors mapped to the MITRE ATT&CK framework.
+Ensure the system has enough resources to run tests smoothly and prevent system lag or crashes.
 
+Optimizing resource allocation shows good system management skills, which are crucial in real-world environments, especially when dealing with large logs and system processes.
 
 
-VirtualBox
+2. Sysmon Configuration and Log Collection
 
--To create a controlled environment for testing, using a Windows 10 virtual machine.
+Installed Sysmon with a custom sysmonconfig.xml to capture detailed logs of process creation, network connections, and file modifications.
 
+Verified logs in Event Viewer to ensure Sysmon was functioning correctly.
 
+Configuring Sysmon allows for effective monitoring of system activities, crucial for detecting suspicious actions like malware or unauthorized processes.
 
-MITRE ATT&CK Framework
 
--As a reference to map simulated adversary techniques and design detection strategies.
+3. Splunk Configuration
 
+In Splunk, configured the data inputs to ingest Sysmon logs and validated the configuration by querying the logs.
 
+Successfully ingested Sysmon logs and queried them using filters for event ID 1 and the bitsadmin.exe process.
 
-PowerShell
+Properly configuring Splunk for log ingestion ensures smooth data collection and analysis. In the enterprise context, this is essential for centralizing logs and quickly identifying malicious 
+activity.
 
--For configuring Sysmon, managing the ART framework, and executing simulated techniques.
 
+4. ART Setup and Test Execution
 
+Installed Atomic Red Team (ART) framework following official guidelines and excluded ART’s folder from Windows Defender to avoid interference during testing.
 
-Windows Defender
+Ran the full set of ART tests related to T1197 (BITS Jobs) to simulate persistence tactics.
 
--Configured to manage antivirus exclusions for smoother testing.
+ART helps simulate real-world adversarial techniques, which is key in testing detection capabilities. Running a comprehensive set of tests ensures you cover various attack vectors.
 
 
+5. Log Analysis in Splunk
 
-## Steps
+Filtered Sysmon logs in Splunk for Event ID 1 related to the execution of bitsadmin.exe, a tool used for persistence in BITS Jobs.
 
+Created a process analysis table to visualize parent-child process relationships.
 
-1.Installed and Configured Sysmon
+splunk
 
--Downloaded Sysmon and applied a custom configuration file to enable detailed logging of critical system events.
+index=main source="path\to\sysmon\logs.evtx" eventcode=1 image="bitsadmin.exe" 
+| table _time, ParentImage, ParentCommandLine, Image, CommandLine 
+| sort +_time
 
+This step enables clear visibility of the processes related to BITS Jobs, helping analysts detect malicious persistence behaviors by analyzing parent-child process relationships.
 
-2.Installed and Set Up Splunk
 
--Deployed Splunk and configured the platform to ingest logs for centralized analysis.
+6. MITRE ATT&CK Framework Application
 
+Reviewed relevant MITRE ATT&CK techniques for T1197 (BITS Jobs), including keywords like cmd.exe, create, and transfer.
 
-3.Set Up a Virtual Environment
+Used these keywords to refine searches in Splunk and correlate findings with known attack techniques.
 
--Created a Windows 10 virtual machine using VirtualBox and an ISO image. Configured the environment for testing purposes.
- 
+The MITRE ATT&CK framework is a vital resource for mapping and understanding adversary tactics. Applying this framework to real-world scenarios enhances the ability to detect and respond to sophisticated attacks.
 
-4.Launched PowerShell as Administrator
 
--Ensured administrative privileges for seamless execution of scripts and frameworks.
+7. Error Resolution and Troubleshooting
 
+Encountered an issue when accidentally closing the ART test tab while executing tests.
 
-5.Bypassed Execution Policy
+Resolved the issue by re-importing the ART module, allowing tests to run smoothly.
 
--Ran the following command to bypass the execution policy temporarily, as recommended by the official documentation to avoid potential errors:
+Troubleshooting and resolving issues independently shows problem-solving skills and the ability to recover from technical setbacks without significant downtime.
 
- Set-ExecutionPolicy Bypass -Scope CurrentUser
+### Project Reflection and Areas for Improvement (If This Were a Real-World Scenario):
 
+False Positive Handling (Not Applicable in This Demo)
 
-6.Installed the Atomic Red Team (ART) Execution Framework
+In this demo project, I didn’t encounter any false positives since the tests were simulated. However, in a real-world environment, handling false positives effectively would be a critical part of the threat detection process. If false positives were flagged, I would carefully cross-reference logs with MITRE ATT&CK detection guidelines, manually verify the logs, and refine detection rules to minimize unnecessary alerts. Developing a solid process for false positive handling would be an important part of ensuring that a security system doesn’t become overwhelmed by non-malicious activity.
 
--Installed the ART framework directly from its official repository without relying on the PowerShell Gallery:
+Real-World Application (Demonstrated in a Simulated Environment)
 
- IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing);
- Install-AtomicRedTeam
+While this demo focused on simulating adversary behaviors and did not involve actual attacks, in a real-world setting, the same approach would be invaluable for detecting and defending against persistent threats like BITS Jobs. I would integrate Sysmon and Splunk to continuously monitor systems, detect adversarial techniques in real-time, and quickly respond to attacks such as data exfiltration or lateral movement. Although the demo didn’t trigger real alerts, these tools and techniques are critical for protecting enterprise environments.
 
+### Additional Information on Real-World Application and Enhancements (Beyond This Demo):
 
-7.Excluded the Atomic Folder in Antivirus Settings
+Demo Limitations (What Was Not Tested in This Demo)
 
--Added the Atomic Red Team folder to the antivirus exclusion list to prevent interference during testing.
+As this project was intended for demonstration purposes, no real threats were executed, and flagging wasn’t necessary. If this had been a live environment, I would have focused on actively monitoring logs for real malicious activities and would have had to address any actual threats or alerts triggered during the process. This project’s demo nature didn’t require active threat detection or remediation steps, but in a real-world scenario, managing those would be a key responsibility.
 
+Enhanced Detection and Analysis (Beyond Demo Scope)
 
-8.Reinstalled the Execution Framework
-
--Reinstalled the framework with all techniques to ensure full functionality:
-
- Install-AtomicRedTeam -GetAtomics -Force
-
-
-9.Verified Available ART Tests
-
--Used the following command to list and review all available Atomic Red Team tests:
-
- Invoke-AtomicTest ALL -ShowDetailsBrief
-
-
-10.Selected a Technique from the MITRE ATT&CK Framework
-
--Navigated to the MITRE ATT&CK website and chose a technique of interest. Selected "BITS Jobs" under the Persistence category, with event ID T1197.
-
-
-11.Inspected Techniques Related to T1197
-
--Reviewed available tests for T1197 using:
-
- Invoke-AtomicTest T1197 -ShowDetailsBrief
-
-
-12.Executed Atomic Tests for T1197
-
--Ran all available tests for T1197 to simulate the technique:
-
- Invoke-AtomicTest T1197
-
-
-13.Configured Splunk for Sysmon Log Ingestion
-
--Added the Sysmon log file path as a data input in Splunk to enable the monitoring of Sysmon events.
-
-
-14.Verified Sysmon Events in Splunk
-
--Queried Sysmon events to confirm that the logging configuration was operational:
-
- index=main source="C:\\windows\\system32\\winevnt...etc"
-
-
-15.Searched for Events Related to ART Tests
-
--Filtered events in Splunk to identify those associated with the Atomic Red Team tests, such as bitsadmin.exe:
-
- index=main source="C:\\windows\\system32\\winevnt...etc" eventcode=1 image="*bitsadmin.exe*"
-
-
-16.Created a Process Analysis Table for Readability
-
--Built a table in Splunk for parent-child process analysis to enhance readability:
-
- index=main source="C:\\windows\\system32\\winevnt...etc" eventcode=1 image="*bitsadmin.exe*"
- | table _time, parentimage, parentcommandline, image, commandline
- | sort +_time
-
-
-17.Reviewed MITRE ATT&CK Detection Guidelines
-
--Consulted the "BITS Jobs" detection section on the MITRE ATT&CK website for keywords such as "create" and "transfer" to refine searches.
-
-
-18.Validated Keywords in Splunk
-
--Queried Splunk for related keywords (e.g., cmd.exe, create, transfer) to confirm that these were legitimate events and not false positives.
-
+The project focused mainly on simulating specific adversarial techniques and querying event logs. However, in a real-world scenario, I would expand this approach by cross-referencing network traffic, endpoint logs, and threat intelligence feeds to improve threat detection capabilities. This would allow for a more comprehensive analysis of suspicious behavior, making the detection system more robust and capable of identifying potential attacks from multiple angles.
 
 
 #### SCREENSHOTS
