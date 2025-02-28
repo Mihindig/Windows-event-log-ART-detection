@@ -250,9 +250,9 @@ The project focused mainly on simulating specific adversarial techniques and que
 ### https://attack.mitre.org/
 
 ## License:
-© mihindig 2025. All rights reserved.
+© Mihindig 2025. All rights reserved.
+This repository is for educational purposes only. Unauthorized use, redistribution, or commercial use of this code is prohibited without explicit permission from the author. Please do not copy or redistribute without providing appropriate credit.
 
-This repository is for **educational purposes only**. Unauthorized use, redistribution, or commercial use of this code is prohibited without explicit permission from the author. Please do not copy or redistribute without providing appropriate credit.
 
 ## Contact:
 For inquiries or collaboration opportunities, feel free to reach out via <a href="www.linkedin.com/in/mihindi-gunawardana-44a0a432b"><img src="https://img.shields.io/badge/-LinkedIn-0072b1?&style=for-the-badge&logo=linkedin&logoColor=white" /></a>
