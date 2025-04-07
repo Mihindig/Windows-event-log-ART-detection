@@ -222,10 +222,6 @@ Cybersecurity isn’t just about finding threats—it’s about knowing **what�
 
 ---
 
-Yes, everything looks well-aligned and cohesive! Adding the **resources section** with links will tie it together neatly and make your project even more useful for readers. You can structure it like this:
-
----
-
 ## **Resources**  
 
 - [Splunk: Operational Intelligence and Security Platform](https://www.splunk.com/)  
